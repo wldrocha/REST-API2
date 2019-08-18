@@ -1,0 +1,27 @@
+{
+  "name": "api-rest",
+  "version": "0.0.1",
+  "description": "REST API e-comerce",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "cluster": "^0.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.20.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "mongoose": "^5.6.9",
+    "nodemon": "^1.19.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "rest-api"
+  ],
+  "author": "Wladimir Rocha",
+  "license": "ISC"
+}
