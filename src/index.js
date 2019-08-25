@@ -1,10 +1,15 @@
-import '@babel/polyfill';
-import express from 'express';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import { appName, port, database } from './app.config';
-const { name, url } = database;
-import { connect } from 'mongoose';
+// import '@babel/polyfill';
+const express = require('express');
+const morgan = require('morgan');
+const helmet = require('helmet');
+
+const {
+	appName,
+	port,
+	database: { name, url }
+} = require('./app.config');
+const { connect } = require('mongoose');
+
 
 const app = express();
 app.use(
@@ -25,7 +30,8 @@ app.use(morgan('tiny'));
 app.use(helmet());
 
 // Routes
-import userRoutes from './routes/user.routes';
+const userRoutes = require('./routes/user.routes');
+// import userRoutes from './routes/user.routes';
 
 app.use(userRoutes);
 

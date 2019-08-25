@@ -1,4 +1,10 @@
-const { model, Schema } = require('mongoose');
+const {
+	model,
+	Schema,
+	Schema: {
+		Types: { ObjectId }
+	}
+} = require('mongoose');
 
 const USER = new Schema({
 	firstName: {
@@ -59,7 +65,14 @@ const USER = new Schema({
 		default: Date.now
 	},
 	deletedAt: {
-		type: Date
+		user: {
+			type: ObjectId,
+			ref: 'User'
+		},
+		date: {
+			type: Date,
+			default: Date
+		}
 	},
 	rating: {
 		type: Number,

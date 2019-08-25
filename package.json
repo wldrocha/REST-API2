@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "babel src --out-dir dist",
-    "dev": "nodemon src/index.js --exec babel-node",
+    "devB": "nodemon src/index.js --exec babel-node",
+    "dev": "nodemon src/index.js",
     "start": "node dist/server.js"
   },
   "keywords": [

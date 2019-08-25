@@ -17,8 +17,8 @@ const configs = {
 		url: 'mongodb://localhost:27017/'
 	}
 	/*  mail :{
-    user: 'Planfutbolapp@gmail.com',
-    pass: 'pedrofabian2019'
+    user: 'userstore@gmail.com',
+    pass: 'pedrofabian2019clave123*'
   } */
 };
 
