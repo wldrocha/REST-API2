@@ -2,6 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors')
 
 const {
 	appName,
@@ -12,6 +13,7 @@ const { connect } = require('mongoose');
 
 
 const app = express();
+app.use(cors());
 app.use(
 	express.json({
 		limit: '20mb'
@@ -19,7 +21,6 @@ app.use(
 );
 app.use(
 	express.urlencoded({
-		limit: '20mb',
 		extended: false
 	})
 );
@@ -34,6 +35,26 @@ const userRoutes = require('./routes/user.routes');
 // import userRoutes from './routes/user.routes';
 
 app.use(userRoutes);
+
+// app.use(function (req, res, next) {
+
+// 	// Website you wish to allow to connect
+// 	res.setHeader('Access-Control-Allow-Origin', '*');
+
+// 	// // Request methods you wish to allow
+// 	res.setHeader('Access-Control-Allow-Methods', '*');
+
+// 	// // Request headers you wish to allow
+// 	res.setHeader('Access-Control-Allow-Headers', 'content-type, authentication, *');
+
+// 	// // Set to true if you need the website to include cookies in the requests sent
+// 	// // to the API (e.g. in case you use sessions)
+// 	res.setHeader('Access-Control-Allow-Credentials', true);
+
+// 	// Pass to next layer of middleware
+// 	next();
+// });
+
 
 async function main() {
 	await app.listen(port);

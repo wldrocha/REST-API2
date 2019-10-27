@@ -8,7 +8,9 @@ const User = require('../models/user');
 exports.signup = async (req, res) => {
 	try {
 		let { email, password } = req.body;
+		console.log(req.body);
 		let user = await User.findOne({ email });
+
 		if (user) {
 			return res.status(400).json({
 				errors: { message: 'El email ya existe.' }
@@ -17,6 +19,7 @@ exports.signup = async (req, res) => {
 			let newUser = new User(req.body);
 			try {
 				password = await hash(password, 10);
+				console.log(password);
 				newUser.password = password;
 				let user = await newUser.save();
 				let expDateToken = Math.floor(Date.now() / 1000) + 60 * 60;
@@ -29,14 +32,13 @@ exports.signup = async (req, res) => {
 					secretKey,
 					{ expiresIn: expDateToken }
 				);
-				console.log(res);
 				res.status(201).json({
 					message: 'Nuevo usuario creado',
 					code: token,
 					user
 				});
 			} catch (error) {
-				console.log(error);
+				console.log(error, 'clave');
 				res.status(500).json({
 					error
 				});
@@ -52,27 +54,38 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
 	let { email, password } = req.body;
+	
 	try {
 		let user = await User.findOne({ email });
-		if (user.length > 0) {
+		console.log(password)
+		if (user) {
+			compare(password, user.password)
+			.then(res =>{
+				console.log
+			})
+			.catch(err =>{
+				console.log(err);
+			})
 			try {
-				let match = await compare(password, user[0].password);
+				let match = await compare(password, user.password);
 				let expDateToken = Math.floor(Date.now() / 1000) + 60 * 60;
-				const TOKEN = jwt.sign(
+				const TOKEN = sign(
 					{
-						email: user[0].email,
-						userId: user[0]._id
+						email: user.email,
+						userId: user._id
 					},
-					config.tokens.secretKey,
+					secretKey,
 					{ expiresIn: expDateToken }
 				);
+				let token= {
+					access_token: TOKEN,
+					expires_in: expDateToken,
+					token_type: 'Bearer '
+				}
+	
 				res.status(201).json({
 					message: 'Autenticación exitosa.',
-					token: {
-						access_token: TOKEN,
-						expires_in: expDateToken,
-						token_type: 'Bearer '
-					}
+					token
 				});
 			} catch (error) {
 				res.status(400).json({
@@ -91,13 +104,13 @@ exports.login = async (req, res) => {
 	}
 };
 
-exports.getUSer = (req, res) => {
-	let { Authorization } = req.headers;
-
+exports.getUSer = async (req, res) => {
+	let { authentication } = req.headers;
 	try {
-		decoded = verify(Authorization.split(' ')[1], secretKey);
+		decoded = await verify(authentication.split(' ')[1], secretKey);
+
 		try {
-			let user = User.findOne({ _id: decoded.userId });
+			let user = await User.findOne({ '_id': decoded.userId });
 			res.status(200).json({
 				user
 			});
@@ -115,11 +128,11 @@ exports.getUSer = (req, res) => {
 	}
 };
 
-exports.getUsers = (req, res) => {
+exports.listAll = (req, res) => {
 
-	let Authorization = req.headers;
+	let authentication = req.headers;
 	try {
-		decoded = verify(Authorization.split(' ')[1], secretKey);
+		decoded = verify(authentication.split(' ')[1], secretKey);
 		try {
 			let users = User.find();
 			res.status(200).json({
