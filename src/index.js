@@ -32,9 +32,11 @@ app.use(helmet());
 
 // Routes
 const userRoutes = require('./routes/user.routes');
+const productRoutes = require('./routes/product.routes');
 // import userRoutes from './routes/user.routes';
 
 app.use(userRoutes);
+app.use(productRoutes);
 
 // app.use(function (req, res, next) {
 

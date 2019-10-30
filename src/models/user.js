@@ -48,6 +48,16 @@ const USER = new Schema({
 		enum: [true, false],
 		default: false
 	},
+	shoppingCar: [{
+		product:{
+			type: ObjectId,
+			re: 'Category'
+		},
+		quantity:{
+			type: Number,
+		},
+	}]
+	,
 	level: {
 		type: Number,
 		enum: [0, 1],

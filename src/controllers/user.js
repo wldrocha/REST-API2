@@ -128,13 +128,13 @@ exports.getUSer = async (req, res) => {
 	}
 };
 
-exports.listAll = (req, res) => {
+exports.listAll = async (req, res) => {
 
 	let authentication = req.headers;
 	try {
 		decoded = verify(authentication.split(' ')[1], secretKey);
 		try {
-			let users = User.find();
+			let users = await User.find();
 			res.status(200).json({
 				users
 			});

@@ -18,16 +18,18 @@ const PRODUCT = new Schema({
 	pictures: {
 		type: Array
 	},
-	category: {
-		type: ObjectId,
-		re: 'Category'
-	},
-	supplier: {
-		type: ObjectId
-	},
+	// category: {
+	// 	type: ObjectId,
+	// 	re: 'Category'
+	// },
+	// supplier: {
+	// 	type: ObjectId
+	// },
+	size: [{ Number }],
 	description: {
 		type: String
 	},
+	type: { type: String },
 	comments: [
 		{
 			user: { type: ObjectId, ref: 'User' },
