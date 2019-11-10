@@ -9,7 +9,7 @@ const {
 const PRODUCT = new Schema({
 	code: {
 		type: String,
-		required: 'El código es necesario'
+		// required: 'El código es necesario'
 	},
 	name: {
 		type: String,
@@ -18,17 +18,36 @@ const PRODUCT = new Schema({
 	pictures: {
 		type: Array
 	},
-	// category: {
-	// 	type: ObjectId,
-	// 	re: 'Category'
-	// },
-	// supplier: {
-	// 	type: ObjectId
-	// },
-	size: [{ Number }],
 	description: {
 		type: String
 	},
+	price: {
+		type: String
+	},
+	supplier: {
+		type: ObjectId,
+		ref:'Supplier'
+	},
+	size:{
+		type:Number
+	},
+	quantity:{
+		type: Number
+	},
+	// lot:[{
+	// 	supplier: {
+	// 		type: ObjectId,
+	// 		ref:'Supplier'
+	// 	},
+	// 	sizes: [{
+	// 		size: Number,
+	// 		initialQuantity: Number,
+	// 	}],
+	// 	date: {
+	// 		type: Date
+	// 	}
+	// }],
+
 	type: { type: String },
 	comments: [
 		{
@@ -56,9 +75,6 @@ const PRODUCT = new Schema({
 			deletedAt: { type: Date }
 		}
 	],
-	price: {
-		type: String
-	},
 	rating: {
 		type: Number,
 		min: 0,

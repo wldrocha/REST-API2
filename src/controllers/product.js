@@ -35,43 +35,22 @@ exports.listAll = async (req, res) => {
 };
 
 /* add one Product */
-exports.addProduct = (req, res) => {
+exports.addProduct = async (req, res) => {        
+        let product = {
+            name : req.body.name,
+            code: req.body.code,    
+            description: req.body.description,
+            price: req.body.price,
+            supplier: req.body.supplier,
+            size : req.body.size[0]
+        }
+        const newProduct = new Product(product);
 
-    // if (req.body.pictures) {
-    //     aux.uploadImages(req.body.pictures, req.body.userID, 'products')
-    //         .then(newImages => {
-    //             console.log(newImages);
-
-
-    //             const newProduct = new Product(req.body);
-
-    //             newProduct.save()
-    //                 .then(result => {
-    //                     console.log(result);
-    //                     res.status(201).json({
-    //                         message: 'Product saved successfuly.',
-    //                         newProduct: newProduct
-    //                     });
-    //                 }).catch(err => {
-    //                     res.status(400).json({
-    //                         message: 'Failed to save Product.',
-    //                         error: err
-    //                     });
-    //                 });
-    //         }).catch(err => {
-    //             res.status(400).json({
-    //                 message: 'Failed to save Product images.',
-    //                 error: err
-    //             });
-    //         })
-    // } else {
-        const newProduct = new Product(req.body);
-
-        newProduct.save()
+        product = await newProduct.save()
             .then(result => {
                 res.status(201).json({
                     message: 'Product saved successfuly.',
-                    newProduct: newProduct
+                    newProduct: product
                 });
             }).catch(err => {
                 res.status(400).json({

@@ -9,11 +9,11 @@ const {
 const SUPPLIER = new Schema({
 	name: {
 		type: String,
-		required: 'El nombre es requerido.'
+		// required: 'El nombre es requerido.'
 	},
-	adress: {
+	address: {
 		type: String,
-		required: 'La dirección es requerida.'
+		// required: 'La dirección es requerida.'
 	},
 	contact: {
 		phonenumber: {
