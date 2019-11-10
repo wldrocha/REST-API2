@@ -4,7 +4,7 @@ const {
 const Supplier = require('../models/supplier');
 
 exports.getSupplier = async (req, res) => {
-    let { id } = req.body;
+    let { id } = req.params;
     try {
         let supplier = await Supplier.findOne({ '_id': id });
         res.status(200).json({
@@ -34,7 +34,7 @@ exports.listAll = async (req, res) => {
     }
 };
 
-exports.addSupplier = async (req, res) => {
+exports.addSupplier = async (req, res) => {    
     const newSupplier = new Supplier(req.body)
 
     try {
