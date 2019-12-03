@@ -1,7 +1,9 @@
 const {
     tokens: { secretKey }
 } = require('../app.config');
+const { verify } = require('jsonwebtoken');
 const Product = require('../models/product');
+const { uploadImages } = require('./globalController');
 
 exports.getProduct = async (req, res) => {
     let { id } = req.params;
@@ -35,14 +37,36 @@ exports.listAll = async (req, res) => {
 };
 
 /* add one Product */
-exports.addProduct = async (req, res) => {        
+exports.addProduct = async (req, res) => {
+
+    if (req.headers && req.headers.authentication) {
+        var authentication = req.headers.authentication,
+            decoded;
+        try {
+            decoded = verify(authentication.split(' ')[1], secretKey);
+        } catch (e) {
+            return res.status(401).send('Unauthorized.');
+        }
+
+        let images = '';
+        if (req.body.pictures) {
+            try {
+                images = await uploadImages(req.body.pictures, decoded.userId, 'products')
+                console.log(images)
+            } catch (error) {
+                console.log('error', error)
+            }
+
+        }
         let product = {
-            name : req.body.name,
-            code: req.body.code,    
+            name: req.body.name,
+            code: req.body.code,
             description: req.body.description,
+            pictures: images,
             price: req.body.price,
+            quantity: req.body.quantity,
             supplier: req.body.supplier,
-            size : req.body.size[0]
+            size: req.body.size[0]
         }
         const newProduct = new Product(product);
 
@@ -58,7 +82,7 @@ exports.addProduct = async (req, res) => {
                     error: err
                 });
             });
-    // }
+    }
 
 };
 
