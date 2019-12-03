@@ -2,92 +2,95 @@ const {
 	model,
 	Schema,
 	Schema: {
-		Types: { ObjectId }
-	}
+		Types: { ObjectId },
+	},
 } = require('mongoose');
 
 const USER = new Schema({
 	firstName: {
-		type: String
+		type: String,
 	},
 	lastName: {
-		type: String
+		type: String,
 	},
 	displayName: {
-		type: String
+		type: String,
 	},
 	email: {
 		type: String,
 		// unique: true,
 		// dropDups: true,
 		required: 'El email ya existe!',
-		match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 	},
 	phone: {
-		type: String
+		type: String,
 	},
 	address: {
-		type: String
+		type: String,
 	},
-	brithdate: {
-		type: Date
+	birthdate: {
+		type: Date,
 	},
 	identification: {
-		type: String
+		type: String,
 	},
 	avatar: {
 		type: String,
-		default: 'default.png'
+		default: 'default.png',
 	},
 	password: {
 		type: String,
-		required: 'la contraseña es requerida'
+		required: 'la contraseña es requerida',
 	},
 	status: {
 		type: Boolean,
 		enum: [true, false],
-		default: false
+		default: false,
 	},
-	shoppingCar: [{
-		product:{
-			type: ObjectId,
-			re: 'Category'
+	shoppingCar: [
+		{
+			product: {
+				type: ObjectId,
+				ref: 'Product',
+			},
+			quantity: {
+				type: Number,
+			},
+			size: {
+				type: Number,
+			},
 		},
-		quantity:{
-			type: Number,
-		},
-	}]
-	,
+	],
 	level: {
 		type: Number,
 		enum: [0, 1],
-		default: 0
+		default: 0,
 	},
 	passwordResetToken: {
-		type: String
+		type: String,
 	},
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
 	},
 	updatedAt: {
 		type: Date,
-		default: Date.now
 	},
 	deletedAt: {
 		user: {
 			type: ObjectId,
-			ref: 'User'
+			ref: 'User',
 		},
 		date: {
 			type: Date,
-			default: Date
-		}
+			default: Date,
+		},
 	},
 	rating: {
 		type: Number,
-		default: 0
-	}
+		default: 0,
+	},
 });
 
 module.exports = model('User', USER);
